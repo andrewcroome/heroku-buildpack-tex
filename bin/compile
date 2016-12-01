@@ -71,6 +71,10 @@ if [ -f $BUILD_DIR/.texlive-packages ]; then
     # Update tlmgr, as outdated versions refuse to install packages
     tlmgr update --self
 
+    # Use archived repository for compatibility - as suggested in:
+    # http://tex.stackexchange.com/questions/313768/why-getting-this-error-tlmgr-unknown-directive
+    tlmgr option repository ftp://tug.org/historic/systems/texlive/2010/tlnet-final
+
     for PACKAGE in $(cat $BUILD_DIR/.texlive-packages); do
         build-step "Installing package $PACKAGE"
         tlmgr install $PACKAGE
