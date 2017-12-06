@@ -70,7 +70,7 @@ echo "export PATH=\$HOME/.texlive/bin/${PLATFORM}:\$PATH" >> $PROFILE_D
 if [ -f $BUILD_DIR/.texlive-packages ]; then
     # Use archived repository for compatibility - as suggested in:
     # http://tex.stackexchange.com/questions/313768/why-getting-this-error-tlmgr-unknown-directive
-    tlmgr option repository ftp://tug.org/historic/systems/texlive/2015/tlnet-final
+    tlmgr option repository ftp://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2015/tlnet-final
 
     # Update tlmgr, as outdated versions refuse to install packages
     tlmgr update --self
