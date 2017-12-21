@@ -66,17 +66,19 @@ fi
 # Set up the environment for runtimes now that compilation has finished
 echo "export PATH=\$HOME/.texlive/bin/${PLATFORM}:\$PATH" >> $PROFILE_D
 
-# Install any custom packages
-if [ -f $BUILD_DIR/.texlive-packages ]; then
-    # Use archived repository for compatibility - as suggested in:
-    # http://tex.stackexchange.com/questions/313768/why-getting-this-error-tlmgr-unknown-directive
-    tlmgr option repository ftp://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2015/tlnet-final
 
-    # Update tlmgr, as outdated versions refuse to install packages
-    tlmgr update --self
+# Use archived repository for compatibility - as suggested in:
+# http://tex.stackexchange.com/questions/313768/why-getting-this-error-tlmgr-unknown-directive
+tlmgr option repository ftp://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2015/tlnet-final
 
-    for PACKAGE in $(cat $BUILD_DIR/.texlive-packages); do
-        build-step "Installing package $PACKAGE"
-        tlmgr install $PACKAGE
+# Update tlmgr, as outdated versions refuse to install packages
+tlmgr update --self
+
+# Install packages located in the application's .texlive-packages
+# We do this because the ftp hosts are unstable
+if [ -f $BUILD_DIR/.texlive-archives ]; then
+    build-step "Installing packages discovered in $BUILD_DIR/.texlive-archives"
+    for ARCHIVE in $BUILD_DIR/.texlive-archives/*.xz; do
+      tlmgr install --file $ARCHIVE
     done
 fi
