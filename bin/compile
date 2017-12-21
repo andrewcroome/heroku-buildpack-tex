@@ -76,7 +76,7 @@ tlmgr update --self
 
 # Install packages located in the application's .texlive-packages
 # We do this because the ftp hosts are unstable
-if [ -f $BUILD_DIR/.texlive-archives ]; then
+if [ -d $BUILD_DIR/.texlive-archives ]; then
     build-step "Installing packages discovered in $BUILD_DIR/.texlive-archives"
     for ARCHIVE in $BUILD_DIR/.texlive-archives/*.xz; do
       tlmgr install --file $ARCHIVE
